@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<!-- index.html
+搜索样本：https://litbuyex.com/ 以分类目录帮助浏览；https://litbuyspreadsheet.io/ 提供名称、分类和美元预算筛选；https://rep.tools/guides/litbuy-spreadsheet 讲解商品链接的使用。
+本页将静态商品目录、尺码核对和可操作的到手价计算放在同一页，并标明目录来源和价格口径。搜索样本不代表指定地区的实时 Google 排名。
+目录来源：https://cafans.com/ 。价格为源目录参考价。
+收录状态：新页面的公开网址尚未提供，Google 和 Bing 均未提交。发布后，在已验证的 Google Search Console 属性中使用网址检查请求编入索引，在 Bing Webmaster Tools 中使用 URL Submission 提交同一网址。
+官方说明：https://developers.google.com/search/docs/crawling-indexing/ask-google-to-recrawl
+https://www.bing.com/webmasters/help/?topicid=62f2860b
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <title>LitBuy spreadsheet | CAFANS Finds, Sizing & Shipping Budget</title>
+  <meta name="description" content="Browse shoes, hoodies, tees and jackets from CAFANS. Compare estimated USD prices, check sizing and calculate your total shopping budget.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="LitBuy spreadsheet | CAFANS Finds & Buying Guide">
+  <meta property="og:description" content="Compare selected CAFANS finds, check sizing and estimate your total order cost.">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "LitBuy spreadsheet",
+    "inLanguage": "en",
+    "description": "An independent buying guide featuring selected product listings from CAFANS.",
+    "mainEntity": {
+      "@type": "ItemList",
+      "name": "Selected CAFANS product listings",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Leather Slides","url":"https://cafans.com/goods-158791.html"},
+        {"@type":"ListItem","position":2,"name":"Thug Club - Rock Hoodie","url":"https://cafans.com/goods-158280.html"},
+        {"@type":"ListItem","position":3,"name":"Kanye West Yeezy Bully Black Short Sleeve T-Shirt","url":"https://cafans.com/goods-158273.html"},
+        {"@type":"ListItem","position":4,"name":"Corteiz Jacket","url":"https://cafans.com/goods-158279.html"}
+      ]
+    }
+  }
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #182b24;
+      --muted: #506159;
+      --paper: #f5f5ec;
+      --line: #d1dcd2;
+      --green: #123a30;
+      --lime: #ddf89c;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font: 1rem/1.55 system-ui, sans-serif; }
+    .wrap { width: min(1120px, calc(100% - 2rem)); margin-inline: auto; }
+    a { color: inherit; text-underline-offset: .2em; }
+    :focus-visible { outline: 3px solid #c16916; outline-offset: 4px; }
+    .hero { padding: clamp(4rem, 10vw, 8rem) 0; color: #fff; text-align: center; background: radial-gradient(ellipse at 70% 0%, #397452, transparent 65%), var(--green); }
+    h1, h2, h3, p { margin: 0; }
+    h1 { font: 700 clamp(2.7rem, 8vw, 6rem)/.98 Georgia, serif; letter-spacing: -.05em; }
+    h2 { font: 700 clamp(1.8rem, 4vw, 2.6rem)/1.12 Georgia, serif; }
+    h3 { font-size: 1.05rem; line-height: 1.35; }
+    .hero p { max-width: 36rem; margin: 1.25rem auto; color: #edf5e9; }
+    .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: .65rem; margin-top: 1.75rem; }
+    .button { display: inline-block; padding: .8rem 1.25rem; background: var(--lime); color: var(--green); border: 1px solid var(--lime); border-radius: 999px; font-weight: 700; text-decoration: none; }
+    .button:hover { box-shadow: inset 0 0 0 2px currentColor; }
+    .button.alt { color: #fff; background: transparent; border-color: #c7dfcc; }
+    main { padding-block: 2.5rem 4rem; }
+    section + section { margin-top: 3rem; }
+    .intro { display: grid; grid-template-columns: 1fr 1.25fr; align-items: start; gap: 1rem 2rem; }
+    .muted { color: var(--muted); }
+    .catalog { padding-block: 2rem; border-block: 1px solid var(--line); }
+    h2 + p { margin-top: .7rem; }
+    .filters, .fields { display: grid; gap: .85rem; margin-block: 1.15rem; }
+    .filters { grid-template-columns: 2fr 1fr 1fr; }
+    .fields { grid-template-columns: repeat(4, 1fr); }
+    label { display: grid; align-content: start; gap: .3rem; font-size: .9rem; font-weight: 650; }
+    input, select { width: 100%; padding: .65rem .75rem; border: 1px solid #87998c; border-radius: .6rem; background: #fff; color: var(--ink); font: inherit; }
+    .cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .card { background: #fff; border: 1px solid var(--line); border-radius: 1rem; overflow: hidden; }
+    .photo { width: 100%; aspect-ratio: 4/3; display: block; object-fit: contain; background: #e6ece4; }
+    .detail { display: grid; gap: .45rem; padding: 1rem; }
+    .price { font-weight: 750; color: #245743; }
+    .panel { padding: clamp(1rem, 4vw, 2rem); background: #e7eee5; border-radius: 1rem; }
+    output { display: block; font-size: 1.2rem; font-weight: 750; }
+    details { border-bottom: 1px solid var(--line); padding-block: .85rem; }
+    details p { margin-top: .5rem; max-width: 72ch; }
+    summary { cursor: pointer; font-weight: 700; }
+    footer { padding-block: 1.25rem; border-top: 1px solid var(--line); color: var(--muted); }
+    [hidden] { display: none !important; }
+    @media (max-width: 800px) {
+      .cards, .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 580px) {
+      .intro, .filters { grid-template-columns: 1fr; }
+    }
+  </style>
+<link rel="canonical" href="https://kakobuyfinds.github.io/zoikv/">
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <h1>LitBuy spreadsheet</h1>
+      <p>Browse shoes and streetwear from the CAFANS catalog. Check the size you need and estimate the total cost before you order.</p>
+      <div class="actions">
+        <a class="button" href="https://cafans.com/">LitBuy spreadsheet</a>
+        <a class="button alt" href="https://cafans.com/">Buy it now</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="intro" aria-labelledby="about">
+      <h2 id="about">From product find to shortlist</h2>
+      <p>A LitBuy spreadsheet helps you compare product links, sizes and reference prices in one place. This independent guide uses selected CAFANS listings. Open a product to check the current options and see which shopping agents are available for that listing.</p>
+    </section>
+
+    <section class="catalog" aria-labelledby="catalog-title">
+      <h2 id="catalog-title">Browse the CAFANS catalog</h2>
+      <p class="muted">Reference prices in USD. Check the current listing for stock, variant pricing and shipping.</p>
+      <div class="filters" id="filters" hidden>
+        <label>Search products
+          <input id="query" type="search" placeholder="Try hoodie or leather" aria-controls="products">
+        </label>
+        <label>Category
+          <select id="category" aria-controls="products">
+            <option value="">All categories</option>
+            <option value="shoes">Shoes</option>
+            <option value="hoodies">Hoodies</option>
+            <option value="tees">T-shirts</option>
+            <option value="jackets">Jackets</option>
+          </select>
+        </label>
+        <label>Maximum item price (USD)
+          <input id="budget" type="number" min="0" step="0.01" placeholder="Any price" aria-controls="products">
+        </label>
+      </div>
+      <p id="results" class="muted" role="status" hidden></p>
+
+      <div class="cards" id="products">
+        <article class="card" data-category="shoes" data-price="62.36">
+          <img class="photo" src="https://si.geilicdn.com/open1769158365-252808396-70340000019822fe6f2d0a23b491_1200_1200.jpg" alt="Leather slides" width="400" height="300" loading="lazy" decoding="async">
+          <div class="detail">
+            <p class="muted">Shoes</p>
+            <h3><a href="https://cafans.com/goods-158791.html">Leather Slides</a></h3>
+            <p class="price">$62.36 USD</p>
+          </div>
+        </article>
+        <article class="card" data-category="hoodies" data-price="37.22">
+          <img class="photo" src="https://si.geilicdn.com/open1806012509-1234478995-08f200000197108df0eb0a8115c2_800_800.jpg" alt="Thug Club Rock Hoodie" width="400" height="300" loading="lazy" decoding="async">
+          <div class="detail">
+            <p class="muted">Hoodies</p>
+            <h3><a href="https://cafans.com/goods-158280.html">Thug Club - Rock Hoodie</a></h3>
+            <p class="price">$37.22 USD</p>
+          </div>
+        </article>
+        <article class="card" data-category="tees" data-price="22.92">
+          <div class="detail">
+            <p class="muted">T-shirts</p>
+            <h3><a href="https://cafans.com/goods-158273.html">Kanye West Yeezy Bully Black Short Sleeve T-Shirt</a></h3>
+            <p class="price">$22.92 USD</p>
+            <p class="muted">Photos and options are on the product page.</p>
+          </div>
+        </article>
+        <article class="card" data-category="jackets" data-price="42.78">
+          <img class="photo" src="https://si.geilicdn.com/open1806012509-1234478995-093600000197108e2db10a8115c2_1000_1000.jpg" alt="Corteiz jacket" width="400" height="300" loading="lazy" decoding="async">
+          <div class="detail">
+            <p class="muted">Jackets</p>
+            <h3><a href="https://cafans.com/goods-158279.html">Corteiz Jacket</a></h3>
+            <p class="price">$42.78 USD</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="total-title">
+      <h2 id="total-title">Estimate your total cost</h2>
+      <p>Enter your item subtotal and the amounts from your quote, all in USD. Add taxes only if they are separate from the shipping quote.</p>
+      <form id="calculator" hidden>
+        <div class="fields">
+          <label>Items (USD)<input name="items" type="number" min="0" step="0.01" inputmode="decimal"></label>
+          <label>Shipping (USD)<input name="shipping" type="number" min="0" step="0.01" inputmode="decimal"></label>
+          <label>Agent fees (USD)<input name="fees" type="number" min="0" step="0.01" inputmode="decimal"></label>
+          <label>Separate taxes (USD)<input name="taxes" type="number" min="0" step="0.01" inputmode="decimal"></label>
+        </div>
+        <output id="total" aria-live="polite">Enter an amount to see the subtotal.</output>
+      </form>
+      <noscript><p>Add the item subtotal, shipping, agent fees and any separately charged taxes to estimate your total.</p></noscript>
+    </section>
+
+    <section aria-labelledby="checklist">
+      <h2 id="checklist">What to check before ordering</h2>
+      <details open>
+        <summary>How do I choose a size?</summary>
+        <p>For shoes, compare your measured foot length with the chart for the specific listing. Check whether the seller measures foot length or the insole. For a hoodie or jacket, lay a garment that fits you flat and compare its chest width, length and sleeve length with the seller’s chart.</p>
+      </details>
+      <details>
+        <summary>What should I check in warehouse photos?</summary>
+        <p>If your agent provides quality check photos, match the color, size label and quantity to your order. Ask for a close-up of visible marks or a photo with a tape measure if the fit depends on a specific dimension. Check the exchange deadline before approving shipment.</p>
+      </details>
+      <details>
+        <summary>How do I compare shipping quotes?</summary>
+        <p>Compare quotes for the same destination and packed parcel size. Ask whether each route uses actual or volumetric weight, whether it rounds up the billable weight, and which fees the quote includes.</p>
+      </details>
+      <details>
+        <summary>Can I buy these items through LitBuy?</summary>
+        <p>Open the CAFANS product page and check its available agents. If you plan to use LitBuy, confirm it can accept the original seller link and the exact variant before placing an order.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">Independent LitBuy shopping guide. Featured listings and reference prices are from <a href="https://cafans.com/">CAFANS</a>.</div>
+  </footer>
+
+  <script>
+    const filters = document.getElementById('filters');
+    const query = document.getElementById('query');
+    const category = document.getElementById('category');
+    const budget = document.getElementById('budget');
+    const results = document.getElementById('results');
+    const products = [...document.querySelectorAll('#products .card')];
+
+    function filterProducts() {
+      const terms = query.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
+      const limit = budget.valueAsNumber;
+      let count = 0;
+      for (const product of products) {
+        const name = product.querySelector('h3').textContent.toLowerCase();
+        const matchesCategory = category.value === '' || category.value === product.dataset.category;
+        const withinBudget = !Number.isFinite(limit) || Number(product.dataset.price) <= limit;
+        product.hidden = !matchesCategory || !withinBudget || !terms.every(term => name.includes(term));
+        if (!product.hidden) count++;
+      }
+      if (!budget.validity.valid) {
+        results.textContent = 'Enter a maximum price of zero or more, with up to two decimal places.';
+      } else if (count === 0) {
+        results.textContent = 'No matches. Try another category, search term or price.';
+      } else {
+        results.textContent = `${count} of ${products.length} products`;
+      }
+    }
+
+    filters.addEventListener('input', filterProducts);
+    filters.hidden = false;
+    results.hidden = false;
+    filterProducts();
+
+    const calculator = document.getElementById('calculator');
+    const total = document.getElementById('total');
+    const fields = [...calculator.querySelectorAll('input')];
+    const usd = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+
+    function updateTotal() {
+      if (fields.some(field => !field.validity.valid)) {
+        total.textContent = 'Use non-negative amounts with up to two decimal places.';
+        return;
+      }
+      const amounts = fields.map(field => field.valueAsNumber).filter(Number.isFinite);
+      if (amounts.length === 0) {
+        total.textContent = 'Enter an amount to see the subtotal.';
+        return;
+      }
+      const cents = amounts.reduce((sum, amount) => sum + Math.round(amount * 100), 0);
+      if (!Number.isSafeInteger(cents)) {
+        total.textContent = 'Enter smaller amounts to calculate the subtotal.';
+        return;
+      }
+      const label = amounts.length === fields.length ? 'Estimated total' : 'Subtotal of entered amounts';
+      total.textContent = `${label}: ${usd.format(cents / 100)} USD`;
+    }
+
+    calculator.addEventListener('input', updateTotal);
+    calculator.addEventListener('submit', event => event.preventDefault());
+    calculator.hidden = false;
+    updateTotal();
+  </script>
+</body>
+</html>
